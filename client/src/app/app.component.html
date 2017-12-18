@@ -1,3 +1,40 @@
-<h1>
-  {{title}}
-</h1>
+<div *ngIf="identity" class="navigation col-lg-1">
+  <h1>
+    {{title}}
+  </h1>
+  <span>Hola: {{identity.name}}</span>
+  <span class="btn btn-warning" (click)="logout()">
+    Cerrar sesión
+  </span>
+</div>
+
+<div class="clearfix"></div>
+
+<div *ngIf="identity" class="navigation col-lg-11">
+  <p>Estas logueado en la aplicación</p>
+</div>
+
+<div class="col-lg-9" *ngIf="!identity">
+  <div class="col-lg-6">
+    <h1>Identificate en FlyghtBooking</h1>
+    <div *ngIf="errorMessage">
+      <div class="alert alert-info">
+        <strong>Error</strong> {{errorMessage}}
+      </div>
+    </div>
+    <form #loginForm="ngForm" (ngSubmit)="onSubmit()" class="col-md-6">
+      <p>
+        <label>Nombre:</label>
+        <input type="text" #nombre="ngModel" name="nombre" [(ngModel)]="passenger.name"
+        class="form-control" required />
+        <span *ngIf="!nombre.valid && nombre.touched">El nombre es obligatorio</span>
+      </p>
+      <p>
+        <label>Contraseña:</label>
+        <input type="password" #password="ngModel" name="password" [(ngModel)]="passenger.password"
+        class="form-control" required />
+      </p>
+      <input type="submit" name="" value="Entrar" class="btn btn-primary">
+    </form>
+  </div>
+</div>
