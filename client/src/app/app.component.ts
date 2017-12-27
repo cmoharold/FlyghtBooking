@@ -7,7 +7,7 @@ import { Passenger } from './models/passenger';
   templateUrl: './app.component.html',
   providers: [PassengerService]
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   title = 'FlyghtBooking';
   public passenger: Passenger;
   public identity;
@@ -34,8 +34,8 @@ export class AppComponent implements OnInit{
         this.identity = identity;
 
         if(!this.identity._id) {
-          alert("El pasajero no está correctamente identificado");
-        }else{
+          alert('El pasajero no está correctamente identificado');
+        }else {
           localStorage.setItem('identity', JSON.stringify(identity));
           // Conseguir el token
           this._passengerService.signup(this.passenger, 'true').subscribe(
@@ -44,8 +44,8 @@ export class AppComponent implements OnInit{
               this.token = token;
 
               if(this.token.length <= 0) {
-                alert("El token no se ha generado");
-              }else{
+                alert('El token no se ha generado');
+              }else {
                 localStorage.setItem('token', token);
                 console.log(token);
                 console.log(identity);
