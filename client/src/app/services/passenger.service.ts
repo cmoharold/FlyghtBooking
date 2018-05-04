@@ -27,6 +27,16 @@ export class PassengerService {
                      .map(res => res.json());
   }
 
+  register(passenger_to_register) {
+    let json = JSON.stringify(passenger_to_register);
+    let params = json;
+
+    let headers = new Headers({'Content-Type':'application/json'});
+
+    return this._http.post(this.url+'register', params, {headers: headers})
+                     .map(res => res.json());
+  }
+
   getIdentity() {
     let identity = JSON.parse(localStorage.getItem('identity'));
 

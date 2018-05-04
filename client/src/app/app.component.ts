@@ -10,14 +10,17 @@ import { Passenger } from './models/passenger';
 export class AppComponent implements OnInit {
   title = 'FlyghtBooking';
   public passenger: Passenger;
+  public passenger_register: Passenger;
   public identity;
   public token;
   public errorMessage;
+  public alertRegister;
 
   constructor(
     private _passengerService: PassengerService
   ) {
     this.passenger = new Passenger('', '', 'ROLE_CLIENT');
+    this.passenger_register =  new Passenger('', '', 'ROLE_CLIENT');
   }
 
   ngOnInit() {
@@ -47,6 +50,7 @@ export class AppComponent implements OnInit {
                 alert('El token no se ha generado');
               }else {
                 localStorage.setItem('token', token);
+                this.passenger = new Passenger('', '', 'ROLE_CLIENT');
                 console.log(token);
                 console.log(identity);
 
@@ -82,5 +86,33 @@ export class AppComponent implements OnInit {
     localStorage.clear();
     this.identity = null;
     this.token = null;
+  }
+
+  onSubmitRegister() {
+    console.log(this.passenger_register);
+
+    this._passengerService.register(this.passenger_register).subscribe(
+      response => {
+        let passenger = response.passenger;
+        this.passenger_register = passenger;
+
+        if(!passenger._id) {
+          this.alertRegister = 'Error al registrase';
+        }else{
+          this.alertRegister = 'El registro se ha realizado correctamente, identificado con ';
+          this.passenger_register = new Passenger('', '', 'ROLE_CLIENT');
+        }
+      },
+      error => {
+        var errorMessage = <any>error;
+
+        if(errorMessage != null) {
+          var body = JSON.parse(error._body);
+          this.alertRegister = body.message;
+
+          console.log(error);
+        }
+      }
+    );
   }
 }

@@ -76,9 +76,9 @@ function updatePassenger(req, res) {
   var passengerId = req.params.id;
   var update = req.body;
 
-  // if(passengerId !== req.passenger.sub) {
-  //   return res.status(500).send({message: 'No tienes permiso para actualizar este pasajero'});
-  // }
+  if(passengerId !== req.passenger.sub) {
+    return res.status(500).send({message: 'No tienes permiso para actualizar este pasajero'});
+  }
 
   Passenger.findByIdAndUpdate(passengerId, update, (err, passengerUpdated) => {
     if(err) {
